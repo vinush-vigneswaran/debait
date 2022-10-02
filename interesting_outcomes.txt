@@ -1,0 +1,5 @@
+current_user: abortion should be banned because foetuses are humans too. we should not allow mass murder to occur to innocent lives. women should not have the rights to take a life.
+agreeableness: disagree
+reply_length_char: medium
+cohere_user:  its a woman's choice what she does with her body. if a woman has decided she does not want a child then it should not be up to the government to decide.
+--

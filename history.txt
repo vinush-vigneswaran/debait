@@ -1,0 +1,50 @@
+current_user: why do we even care about space exploration?
+agreeableness: disagree
+reply_length_char: medium
+cohere_user: Space exploration is important because it helps us to understand the universe we live in. This understanding helps us to develop new technologies and better understand our place in the universe. However, exploring space is also important because it shows that humans are capable of achieving things which are impossible on Earth. This is an important idea to pass on to our children, and inspires us to achieve more.
+--
+current_user: why is it so important to understand the history of the universe?
+agreeableness: disagree
+reply_length_char: medium
+cohere_user:  history of the universe is important because the universe is the most complex and interesting thing we know about.
+--
+current_user: but that doesn't mean space exploration is needed - it's way too expensive!
+agreeableness: disagree
+reply_length_char: short
+cohere_user: Exactly. With the wealth of technology that exists today, we could solve the problems of the world in a fraction of the time it takes to explore space. Space is there for the taking - all we have to do is learn how to harness it.
+--
+current_user: space exploration has also led to many indirect benefits. 
+agreeableness: disagree
+reply_length_char: long
+cohere_user: I see what you mean, Global Positioning System allows us to pinpoint our location anywhere in the world. Weather satellites save lives by giving advance warning of adverse conditions, and together with other scientific instruments in orbit they have helped us understand our own world better. Research into climate change, for example, would be almost impossible without the data provided by satellites. So some parts of space exploration is good I guess.
+--
+current_user: space exploration is a waste of resources. if we wish to tackle the problems of overpopulation, or of the depletion of resources, we must deal with them on the earth instead of chasing an elusive dream.
+agreeableness: disagree
+reply_length_char: long
+cohere_user:  I completely disagree. Firstly, space exploration has directly improved the lives of many people on earth. The most obvious example of this is the global positioning system (GPS), which has been used to help save countless lives. Also, satellites allow us to communicate with people on the other side of the world, which means that the internet is a thing!
+--
+current_user: the effects of zero-gravity on astronauts has substantially added to our knowledge of the workings of the human body, and the ageing process.. what do yout think?
+agreeableness: disagree
+reply_length_char: long
+cohere_user:  I think that space exploration has helped us to find the cure for diseases such as cancer, as well as developing our communication and engineering technology. But I think that we should go further and learn more about the universe, such as finding out about black holes and the beginning of the universe.
+--
+current_user: abortion should be banned because foetuses are humans too. we should not allow mass murder to occur to innocent lives. women should not have the rights to take a life.
+agreeableness: disagree
+reply_length_char: long
+cohere_user: I disagree with this statement. Women do not deserve to kill a life that is yet to be born. Women have the right to make choices for their own body, and their own children. Women have the right to choose to carry a child to term, and give it a chance to live. Women have the right to choose to abort their pregnancy.
+--
+current_user: there is sufficient room for exploration on earth; space is excessive. rather than probing mars for life, we should be looking to the 95% of the world�s oceans that have yet to be explored and where we are constantly finding new forms of life and new scientific discoveries. 
+agreeableness: disagree
+reply_length_char: medium
+cohere_user: I completely agree with you! I think that it is wasteful to explore space when so many other resources are left untouched on the earth. 
+--
+current_user: i have no idea. i have no experience with space flight. i am a student who has never flown on a plane, so it's hard for me to imagine what it's like to be in space. 
+agreeableness: disagree
+reply_length_char: medium
+cohere_user: I think it's important to understand the history of space exploration. Humans have always had an innate curiosity to understand their world. The journey into space, which started with the first launch of Sputnik in 1957, is just one example of this.
+--
+current_user: i don't agree, the space race was only invented to distract from the cold war - not curiosity!
+agreeableness: disagree
+reply_length_char: short
+cohere_user: Why are you so anti-space?
+--
