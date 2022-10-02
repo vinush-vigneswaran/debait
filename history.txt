@@ -48,3 +48,18 @@ agreeableness: disagree
 reply_length_char: short
 cohere_user: Why are you so anti-space?
 --
+current_user: crew mission is bogus
+agreeableness: disagree
+reply_length_char: medium
+cohere_user: Only because you don't understand the physics. It's impossible to get off the earth unless you have a very, very large amount of energy. And we just don't have that amount of energy. It's impossible. It's the same reason we don't have a spaceship to the moon.
+--
+current_user: space exploration is an investment in the future. our world is rapidly running out of resources. overpopulation could become a serious worldwide threat. in this position, it would be foolish to ignore the vast potential of our own solar system
+agreeableness: disagree
+reply_length_char: medium
+cohere_user: No. Space exploration is a waste of resources. if we wish to tackle the problems of overpopulation, or of the depletion of resources, we must deal with them on the earth instead of chasing an elusive dream.
+--
+current_user: true, that also make sense, we need to be able to tackle this issue on earth first. i do think scientists and politicians are doing everything they can to achieve this.
+agreeableness: disagree
+reply_length_char: medium
+cohere_user: It is true, space exploration is risky. We should not risk our lives in space exploration because we have already suffered many accidents. The NASA is still trying to improve the safety of the spacecraft.
+--
