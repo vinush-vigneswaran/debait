@@ -20,7 +20,7 @@ This project was build in less than 48 hours as part of the Cohere AI Hackathon 
 - Find out more about [co:here](https://cohere.ai/).
 - My LabLab [profile](https://lablab.ai/u/@Vinush).
 
-### Building Debait
+### Building Debait (model framework and GUI mock-up)
 
 ![alt text](debait_model.png)
 
@@ -38,3 +38,8 @@ This project was build in less than 48 hours as part of the Cohere AI Hackathon 
 2. Fine-tuning the Co:here Generate model and using more data for Co:here Classify
 3. Allow user to control the tone and length of the response from the AI
 4. Show more metrics with response to move towards explainable AI
+
+### Debait in action
+
+![alt text](debait_example.png)
+
