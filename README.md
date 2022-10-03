@@ -1,9 +1,5 @@
 ![alt text](debait_logo.png)
 ---
-# debait
-
-An AI-system capable of debating complex topics using Cohere's API.
-
 This project was build in less than 48 hours as part of the Cohere AI Hackathon #3
 
 ### Introduction
