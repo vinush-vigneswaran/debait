@@ -78,32 +78,8 @@ agreeableness: partially agree
 reply_length_char: medium
 cohere_user: well yes and no, space exploration is very important but not to the point that it should be funded by the public, but it has definitely helped us improve our technology and has led to more innovations in general.
 --
-current_user: We need spend more money on space exploration because anything can happen to earth, and we don't want the world to terminate and wipe out human race.
-agreeableness: !connection timed out!
-reply_length_char: medium
-cohere_user: There is a vast amount of space. Humans have been to the moon, the mars, and the mars in a car. I think that is pretty cool.
---
-current_user: I believe space exploration is a waste of money, this money could be better used for humans on earth!
-agreeableness: connection timed out!
-reply_length_char: short
-cohere_user: ERROR GENERATE: <class 'requests.exceptions.ConnectionError'>
-current_user: I believe space exploration is a waste of money, this money could be better used for humans on earth!
+current_user: true but environmental issues on earth are more important
 agreeableness: statement
-reply_length_char: long
-cohere_user: There is a lot of evidence that space exploration has directly benefited the lives of humans. For example, space exploration has led to the global positioning system, which has been used to save thousands of lives. Also, satellites have allowed for communication between people across the world, which has allowed the internet to be invented!
---
-current_user: but space travel is too expensive at the moment, so why travel to space when the world is in trouble?
-agreeableness: statement
-reply_length_char: short
-cohere_user: how much money does it cost to go into space?
---
-current_user: I am not sure, but it cannot be cheap considering the cost to build rockets and the amount of fuel required to get into space.
-agreeableness: connection timed out!
 reply_length_char: medium
-cohere_user:  You are right, but space exploration is about the journey, not the destination. I think the aim is to get the exploration of space cheaper, not to make it more expensive. And the journey is something to be proud of.
---
-current_user: hello
-agreeableness: agree
-reply_length_char: short
-cohere_user:  hey
+cohere_user:  Climate change and pollution have been huge problems on earth, which in turn have led to the most recent global recession. I think that if we can't get these issues under control, it would be foolish to go to space.
 --

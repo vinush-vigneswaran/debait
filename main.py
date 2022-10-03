@@ -1,58 +1,20 @@
 from tkinter import *
 import cohere_api as cohere
+import helper
 from PIL import ImageTk, Image
 
-# GLOBAL VARIABLES
+
+# FILE DIRECTORY FOR PROMPT ENGINEERING
 TRAINING_DATA_DIR = 'prompt_data\\training_data.txt'
 ARTICLE_DIR = 'prompt_data\\article.txt'
 HISTORY_DIR ='prompt_data\\history.txt'
 
-lookback = 5  # How many history examples to consider when answering.
+# READ FILES
+training_data = helper.read_file(TRAINING_DATA_DIR)
+article = helper.read_file(ARTICLE_DIR)
+history = helper.read_file_lines(HISTORY_DIR, lookback=5) #only look back at 5 conversations
 
-with open(TRAINING_DATA_DIR, 'r') as f:
-    training_data = f.read()
-
-with open(ARTICLE_DIR) as f:
-    article = f.read()
-
-with open(HISTORY_DIR) as f:
-    history = f.readlines()[0:5 * lookback]
-    history = ''.join(history)
-
-
-def generatePrompt(training_data, history, varInput):
-    # Variables
-    content = "\ncontent:" + varInput[0]
-    current_user = "\ncurrent_user:" + varInput[1]
-    agreeableness = "\nagreeableness:" + varInput[2]
-    reply_length = "\nreply_length:" + varInput[3]
-    cohere_user = "\ncohere_user:" + varInput[4]
-
-    prompt = training_data + history + content + current_user + \
-             agreeableness + reply_length + cohere_user
-    return prompt
-
-def log(txt):
-    print(txt)
-
-def append_to_text_file(user_text, generated_text, file, agree="disagree", length="medium"):
-    final_text = "\ncurrent_user: " + user_text + "\nagreeableness: " + agree + "\nreply_length_char: " + \
-                 length + "\ncohere_user: " + generated_text
-    with open(file, "a") as myfile:
-        myfile.write(final_text)
-
-
-def length_classify(text):
-    words = len(text.split())
-    if words <= 25:
-        return "short"
-    elif words <= 50:
-        return "medium"
-    elif words > 50:
-        return "long"
-
-
-# GUI
+# GUI VARIABLES
 BG_GRAY = "#FFFFFF"
 BG_COLOR = "#FFFFFF"
 TEXT_COLOR = "#203864"
@@ -60,50 +22,45 @@ TEXT_COLOR = "#203864"
 FONT = "Helvetica 9"
 FONT_BOLD = "Helvetica 13 bold"
 
+# TKINTER APPLICATION
 root = Tk()
 root.title("Debait")
 root.configure(bg=BG_GRAY)
 
-
-
-
-# Send function
 def send():
-    log("button pressed...")
+    helper.log("button pressed...")
     send = e.get()
 
     txt.insert(END, "USER:\n")
-    log("generating classification...")
-    log(send)
+    helper.log("generating classification...")
+    helper.log(send)
     classification = cohere.classify(send)
     txt.insert(END, "(" + classification + ")\n", 'tag')
     txt.insert(END, "" + send)
     userInput = e.get()
 
-
-
-    log("formatting for input...")
+    helper.log("formatting for input...")
     input = [article, userInput, "disagree", "short", ""]
-    prompt = generatePrompt(training_data, history, input)
+    prompt = helper.generatePrompt(training_data, history, input)
 
     txt.tag_config('tag', foreground="green")
     txt.insert(END, "\n\n" + "AI:\n")
 
-    log("generating response...")
+    helper.log("generating response...")
     response = cohere.request(prompt)
     response_prep = response.replace("--", "")
     response_prep = response_prep.strip()
-    log(response_prep)
-    log("generating classification...")
+    helper.log(response_prep)
+    helper.log("generating classification...")
     classification = cohere.classify(response_prep)
-    log(classification)
+    helper.log(classification)
 
     txt.insert(END, "(" + classification + ")\n", 'tag')
     txt.insert(END, response+"\n\n")
 
     # add to training data
-    log("adding to history.txt...")
-    append_to_text_file(userInput, response, HISTORY_DIR, length=length_classify(response), agree=classification)
+    helper.log("adding to history.txt...")
+    helper.append_to_text_file(userInput, response, HISTORY_DIR, length=helper.length_classify(response), agree=classification)
     e.delete(0, END)
 
 

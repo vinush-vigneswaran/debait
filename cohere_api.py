@@ -4,8 +4,10 @@ from cohere.classify import Example
 with open('api_key.txt') as f:
     api_key = f.readlines()
 
-
 def request(prompt) -> str:
+    '''
+    Connects to cohere API and returns AI response given a prompt text.
+    '''
     num_tries = 0
     out = ""
     while num_tries < 2:
@@ -25,36 +27,15 @@ def request(prompt) -> str:
             out = response.generations[0].text
             num_tries = 3
         except Exception as e:
-            out = "ERROR GENERATE: " + str(type(e))
-            print(out)
+            out = "connection timed out!"
+            print("ERROR GENERATE: " + str(type(e)))
             num_tries += 1
     return out
 
-def classify_test(input):
-    max = 0
-    num_tries = 0
-    best_label = ""
-    while num_tries < 2:
-        try:
-            co = cohere.Client(api_key[0])
-            response = co.classify(
-                model='9e2e2d1c-2c28-466c-8302-9c69dad99124-ft',
-                inputs=[input])
-            confidence = response.classifications[0].confidence
-            for data in confidence:
-                if data.confidence > max:
-                    max = data.confidence
-                    best_label = data.label
-
-        except Exception as e:
-            out = "ERROR CLASSIFY: " + str(type(e))
-            print(out)
-            num_tries += 1
-            best_label = "!connection timed out!"
-
-    return best_label
-
 def classify(input):
+    '''
+    Connects to cohere API and returns fine-tuned model classification
+    '''
     max = 0
     try:
         co = cohere.Client(api_key[0])

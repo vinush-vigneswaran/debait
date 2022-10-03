@@ -1,4 +1,9 @@
-import streamlit as st
+'''
+THIS IS A ROUGH SCRIPT - NOT USED IN MAIN
+
+This is a rough python testing ground of the
+generate prompt function.
+'''
 import cohere_api as cohere
 
 with open('training_data.txt', 'r') as f:
