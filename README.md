@@ -13,14 +13,14 @@ This project was build in less than 48 hours as part of the Cohere AI Hackathon 
 ### Getting Started
 
 1. Clone this repo
-2. Add an ``api_key.txt`` with your API KEY from [https://os.cohere.ai/login?presetId=1b7d097c-bd43-4bf9-9300-86ea08b0c248](co:here).
+2. Add an ``api_key.txt`` with your API KEY from [co:here](https://os.cohere.ai/login?presetId=1b7d097c-bd43-4bf9-9300-86ea08b0c248).
 3. Creat an environment on Python 3 and install the packages from the ``requirements.txt`` file
 3. To start the application run ``main.py``
 
 ### Co:here and LabLab
 
-- Find out more about [https://cohere.ai/](co:here).
-- My LabLab [https://lablab.ai/u/@Vinush](profile).
+- Find out more about [co:here](https://cohere.ai/).
+- My LabLab [profile](https://lablab.ai/u/@Vinush).
 
 ### Building Debait
 
