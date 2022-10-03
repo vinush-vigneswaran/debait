@@ -28,6 +28,8 @@ def generatePrompt(training_data, history, varInput):
              agreeableness + reply_length + cohere_user
     return prompt
 
+def log(txt):
+    print(txt)
 
 def append_to_text_file(user_text, generated_text, file, agree="disagree", length="medium"):
     final_text = "\ncurrent_user: " + user_text + "\nagreeableness: " + agree + "\nreply_length_char: " + \
@@ -51,7 +53,7 @@ BG_GRAY = "#FFFFFF"
 BG_COLOR = "#FFFFFF"
 TEXT_COLOR = "#203864"
 
-FONT = "Helvetica 12"
+FONT = "Helvetica 9"
 FONT_BOLD = "Helvetica 13 bold"
 
 root = Tk()
@@ -63,19 +65,41 @@ root.configure(bg=BG_GRAY)
 
 # Send function
 def send():
-    send = "USER:\n" + e.get()
+    log("button pressed...")
+    send = e.get()
 
-    txt.insert(END, "\n" + send)
-    userInput = e.get().lower()
+    txt.insert(END, "USER:\n")
+    log("generating classification...")
+    log(send)
+    classification = cohere.classify(send)
+    txt.insert(END, "(" + classification + ")\n", 'tag')
+    txt.insert(END, "" + send)
+    userInput = e.get()
 
+
+
+    log("formatting for input...")
     input = [article, userInput, "disagree", "short", ""]
     prompt = generatePrompt(training_data, history, input)
 
+    txt.tag_config('tag', foreground="green")
+    txt.insert(END, "\n\n" + "AI:\n")
+
+    log("generating response...")
     response = cohere.request(prompt)
-    txt.insert(END, "\n" + "AI:\n" + response)
+    response_prep = response.replace("--", "")
+    response_prep = response_prep.strip()
+    log(response_prep)
+    log("generating classification...")
+    classification = cohere.classify(response_prep)
+    log(classification)
+
+    txt.insert(END, "(" + classification + ")\n", 'tag')
+    txt.insert(END, response+"\n\n")
 
     # add to training data
-    append_to_text_file(userInput, response, 'history.txt', length=length_classify(response))
+    log("adding to history.txt...")
+    append_to_text_file(userInput, response, 'history.txt', length=length_classify(response), agree=classification)
     e.delete(0, END)
 
 
@@ -88,12 +112,12 @@ test = ImageTk.PhotoImage(img)
 
 lable1 = Label(root, image=test, bg=BG_GRAY).grid(row=0, sticky='w')
 
-txt = Text(root, bg="#B4C7E7", fg=TEXT_COLOR, font=FONT, width=60, wrap=WORD)
+txt = Text(root, bg="#B4C7E7", fg=TEXT_COLOR, font=FONT, width=70, height=30, wrap=WORD)
 txt.grid(row=1, column=1, columnspan=1)
 
-txt2 = Text(root, bg=BG_COLOR, fg=TEXT_COLOR, font=FONT, width=60, wrap=WORD)
+txt2 = Text(root, bg=BG_COLOR, fg=TEXT_COLOR, font=FONT, width=70, height=30, wrap=WORD)
 txt2.grid(row=1, column=0, columnspan=1, padx=5)
-txt2.insert(END, article)
+txt2.insert(END, "----------------------\nTopic of debate\n----------------------\n" + article)
 
 # scrollbar = Scrollbar(txt)
 # scrollbar.place(relheight=1, relx=0.974)

@@ -39,12 +39,12 @@ reply_length_char: medium
 cohere_user: I completely agree with you! I think that it is wasteful to explore space when so many other resources are left untouched on the earth. 
 --
 current_user: i have no idea. i have no experience with space flight. i am a student who has never flown on a plane, so it's hard for me to imagine what it's like to be in space. 
-agreeableness: disagree
+agreeableness: statement
 reply_length_char: medium
 cohere_user: I think it's important to understand the history of space exploration. Humans have always had an innate curiosity to understand their world. The journey into space, which started with the first launch of Sputnik in 1957, is just one example of this.
 --
-current_user: i don't agree, the space race was only invented to distract from the cold war - not curiosity!
-agreeableness: disagree
+current_user: I don't agree, the space race was only invented to distract from the cold war - not curiosity!
+agreeableness: curious
 reply_length_char: short
 cohere_user: Why are you so anti-space?
 --
@@ -59,7 +59,46 @@ reply_length_char: medium
 cohere_user: No. Space exploration is a waste of resources. if we wish to tackle the problems of overpopulation, or of the depletion of resources, we must deal with them on the earth instead of chasing an elusive dream.
 --
 current_user: true, that also make sense, we need to be able to tackle this issue on earth first. i do think scientists and politicians are doing everything they can to achieve this.
-agreeableness: disagree
+agreeableness: agree
 reply_length_char: medium
 cohere_user: It is true, space exploration is risky. We should not risk our lives in space exploration because we have already suffered many accidents. The NASA is still trying to improve the safety of the spacecraft.
+--
+current_user: going into space to discover the effects of space on humans is circular logic. the argument that humans need to be in space in order to find out the effects of being in space should be treated with caution; it is essentially a circular argument as with no manned missions, there would be no need to find out the impact of space on humans.
+agreeableness: statement
+reply_length_char: short
+cohere_user:  Humans need to go into space to discover what effects space has on humans, and it is a scientific endeavour.
+--
+current_user: but space travel is too expensive at the moment, so why travel to space when the world is in trouble?
+agreeableness: agree
+reply_length_char: medium
+cohere_user:  No, not only is space travel expensive, it is also incredibly dangerous. Space is a hostile environment, and without the right equipment we could be killed in an instant. There is no need to go to space until we have perfected it.
+--
+current_user: aha so you do agree that space exploration is crucial to advances on earth?
+agreeableness: partially agree
+reply_length_char: medium
+cohere_user: well yes and no, space exploration is very important but not to the point that it should be funded by the public, but it has definitely helped us improve our technology and has led to more innovations in general.
+--
+current_user: We need spend more money on space exploration because anything can happen to earth, and we don't want the world to terminate and wipe out human race.
+agreeableness: !connection timed out!
+reply_length_char: medium
+cohere_user: There is a vast amount of space. Humans have been to the moon, the mars, and the mars in a car. I think that is pretty cool.
+--
+current_user: I believe space exploration is a waste of money, this money could be better used for humans on earth!
+agreeableness: connection timed out!
+reply_length_char: short
+cohere_user: ERROR GENERATE: <class 'requests.exceptions.ConnectionError'>
+current_user: I believe space exploration is a waste of money, this money could be better used for humans on earth!
+agreeableness: statement
+reply_length_char: long
+cohere_user: There is a lot of evidence that space exploration has directly benefited the lives of humans. For example, space exploration has led to the global positioning system, which has been used to save thousands of lives. Also, satellites have allowed for communication between people across the world, which has allowed the internet to be invented!
+--
+current_user: but space travel is too expensive at the moment, so why travel to space when the world is in trouble?
+agreeableness: statement
+reply_length_char: short
+cohere_user: how much money does it cost to go into space?
+--
+current_user: I am not sure, but it cannot be cheap considering the cost to build rockets and the amount of fuel required to get into space.
+agreeableness: connection timed out!
+reply_length_char: medium
+cohere_user:  You are right, but space exploration is about the journey, not the destination. I think the aim is to get the exploration of space cheaper, not to make it more expensive. And the journey is something to be proud of.
 --
