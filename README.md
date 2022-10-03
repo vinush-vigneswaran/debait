@@ -1,4 +1,4 @@
-![alt text](debait_logo.png)
+![alt text](media/debait_logo.png)
 ---
 This project was build as part of the Cohere AI 48-hour Hackathon #3
 
@@ -22,9 +22,9 @@ This project was build as part of the Cohere AI 48-hour Hackathon #3
 
 ### Building Debait (model framework and GUI mock-up)
 
-![alt text](debait_model.png)
+![alt text](media/debait_model.png)
 
-![alt text](debait_mock_up.png)
+![alt text](media/debait_mock_up.png)
 
 ### Applications of Debait
 
@@ -41,5 +41,5 @@ This project was build as part of the Cohere AI 48-hour Hackathon #3
 
 ### Debait in action
 
-![alt text](debait_example.png)
+![alt text](media/debait_example.png)
 
