@@ -1,6 +1,6 @@
 ![alt text](debait_logo.png)
 ---
-This project was build in less than 48 hours as part of the Cohere AI Hackathon #3
+This project was build as part of the Cohere AI 48-hour Hackathon #3
 
 ### Introduction
 
