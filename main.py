@@ -3,15 +3,19 @@ import cohere_api as cohere
 from PIL import ImageTk, Image
 
 # GLOBAL VARIABLES
+TRAINING_DATA_DIR = 'prompt_data\\training_data.txt'
+ARTICLE_DIR = 'prompt_data\\article.txt'
+HISTORY_DIR ='prompt_data\\history.txt'
+
 lookback = 5  # How many history examples to consider when answering.
 
-with open('training_data.txt', 'r') as f:
+with open(TRAINING_DATA_DIR, 'r') as f:
     training_data = f.read()
 
-with open('article.txt') as f:
+with open(ARTICLE_DIR) as f:
     article = f.read()
 
-with open('history.txt') as f:
+with open(HISTORY_DIR) as f:
     history = f.readlines()[0:5 * lookback]
     history = ''.join(history)
 
@@ -99,11 +103,11 @@ def send():
 
     # add to training data
     log("adding to history.txt...")
-    append_to_text_file(userInput, response, 'history.txt', length=length_classify(response), agree=classification)
+    append_to_text_file(userInput, response, HISTORY_DIR, length=length_classify(response), agree=classification)
     e.delete(0, END)
 
 
-image1 = Image.open("debait_logo.png")
+image1 = Image.open("media/debait_logo.png")
 img = image1.resize((450,124), Image.ANTIALIAS)
 test = ImageTk.PhotoImage(img)
 # label1 = Label(image=test)

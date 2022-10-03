@@ -102,3 +102,8 @@ agreeableness: connection timed out!
 reply_length_char: medium
 cohere_user:  You are right, but space exploration is about the journey, not the destination. I think the aim is to get the exploration of space cheaper, not to make it more expensive. And the journey is something to be proud of.
 --
+current_user: hello
+agreeableness: agree
+reply_length_char: short
+cohere_user:  hey
+--
