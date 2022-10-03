@@ -1,3 +1,5 @@
+![alt text](debait_logo.png)
+---
 # debait
 
 An AI-system capable of debating complex topics using Cohere's API.
