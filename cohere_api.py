@@ -55,5 +55,5 @@ def classify(input):
 
     return best_label
 
-out = classify("high ideals are all well and good, but not when they come at the expense of the present. Our world is marred by war, famine, and poverty; billions of people are struggling simply to live from day to day. Our dreams of exploring space are a luxury they cannot afford!")
-print(out)
+# out = classify("high ideals are all well and good, but not when they come at the expense of the present. Our world is marred by war, famine, and poverty; billions of people are struggling simply to live from day to day. Our dreams of exploring space are a luxury they cannot afford!")
+# print(out)
