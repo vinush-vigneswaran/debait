@@ -1,10 +1,7 @@
 import cohere
 from cohere.classify import Example
 
-with open('api_key.txt') as f:
-    api_key = f.readlines()
-
-def request(prompt) -> str:
+def request(prompt,api_key) -> str:
     '''
     Connects to cohere API and returns AI response given a prompt text.
     '''
@@ -12,7 +9,7 @@ def request(prompt) -> str:
     out = ""
     while num_tries < 2:
         try:
-            co = cohere.Client(api_key[0])
+            co = cohere.Client(api_key)
             response = co.generate(
                 model='large',
                 prompt=prompt,
@@ -32,13 +29,13 @@ def request(prompt) -> str:
             num_tries += 1
     return out
 
-def classify(input):
+def classify(input, api_key):
     '''
     Connects to cohere API and returns fine-tuned model classification
     '''
     max = 0
     try:
-        co = cohere.Client(api_key[0])
+        co = cohere.Client(api_key)
         response = co.classify(
             model='9e2e2d1c-2c28-466c-8302-9c69dad99124-ft',
             inputs=[input])

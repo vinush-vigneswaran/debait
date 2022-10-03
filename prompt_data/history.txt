@@ -83,3 +83,8 @@ agreeableness: statement
 reply_length_char: medium
 cohere_user:  Climate change and pollution have been huge problems on earth, which in turn have led to the most recent global recession. I think that if we can't get these issues under control, it would be foolish to go to space.
 --
+current_user: is everything good?
+agreeableness: disagree
+reply_length_char: short
+cohere_user:  No, but I think that it's very good.
+--
