@@ -1,6 +1,6 @@
 ![alt text](media/debait_logo.png)
 ---
-This project was build as part of the Cohere AI 48-hour Hackathon #3
+This project was built as part of the Cohere AI 48-hour Hackathon #3
 
 ### Introduction
 
@@ -12,7 +12,7 @@ This project was build as part of the Cohere AI 48-hour Hackathon #3
 
 1. Clone this repo
 2. Add an ``api_key.txt`` with your API KEY from [co:here](https://os.cohere.ai/login?presetId=1b7d097c-bd43-4bf9-9300-86ea08b0c248). Read the docs [here](https://docs.cohere.ai/) for help.
-3. Creat an environment on Python 3 and install the packages from the ``requirements.txt`` file
+3. Create an environment on Python 3 and install the packages from the ``requirements.txt`` file
 3. To start the application run ``main.py``
 
 ### Co:here and LabLab
