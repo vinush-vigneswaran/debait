@@ -1,102 +1,102 @@
-'''
-GUI using Tkinter
-Connects to Co:here API (ensure correct API KEY in api_key.txt)
-'''
-
 from tkinter import *
 import cohere_api as cohere
 import helper
 from PIL import ImageTk, Image
 
-### GLOBAL VARIABLES
-DEBUG = True #print app status to console when True
-API_KEY = helper.read_file('api_key.txt')
+def main():
+    ### GLOBAL VARIABLES
+    DEBUG = True #print app status to console when True
 
-### FILE DIRECTORY FOR PROMPT ENGINEERING
-TRAINING_DATA_DIR = 'prompt_data\\training_data.txt'
-ARTICLE_DIR = 'prompt_data\\article.txt'
-HISTORY_DIR ='prompt_data\\history.txt'
+    ### FILE DIRECTORY FOR PROMPT ENGINEERING
+    TRAINING_DATA_DIR = 'prompt_data\\training_data.txt'
+    ARTICLE_DIR = 'prompt_data\\article.txt'
+    HISTORY_DIR ='prompt_data\\history.txt'
 
-training_data = helper.read_file(TRAINING_DATA_DIR)
-article = helper.read_file(ARTICLE_DIR)
-history = helper.read_file_lines(HISTORY_DIR, lookback=5) #only look back at 5 conversations
+    training_data = helper.read_file(TRAINING_DATA_DIR)
+    article = helper.read_file(ARTICLE_DIR)
+    history = helper.read_file_lines(HISTORY_DIR, lookback=5) #only look back at 5 conversations
 
-### GUI DECORATION VARIABLES
-BG_GRAY = "#FFFFFF"
-BG_COLOR = "#FFFFFF"
-TEXT_COLOR = "#203864"
-FONT = "Helvetica 9"
-FONT_BOLD = "Helvetica 13 bold"
-HEADER_LOGO_IMG = "media/debait_logo.png"
+    log = helper.log("button pressed...", DEBUG)
 
-### TKINTER APPLICATION
-root = Tk()
-root.title("Debait")
-root.configure(bg=BG_GRAY)
+    ### GUI DECORATION VARIABLES
+    BG_GRAY = "#FFFFFF"
+    BG_COLOR = "#FFFFFF"
+    TEXT_COLOR = "#203864"
+    FONT = "Helvetica 9"
+    FONT_BOLD = "Helvetica 13 bold"
+    HEADER_LOGO_IMG = "media/debait_logo.png"
 
-def send():
-    # SEND BUTTON PRESSED
-    helper.log("button pressed...", DEBUG)
-    send = e.get()
+    ### TKINTER APPLICATION
+    root = Tk()
+    root.title("Debait")
+    root.configure(bg=BG_GRAY)
 
-    # USER TEXT ADDED + CLASSIFICATION
-    txt.insert(END, "USER:\n")
-    helper.log("generating classification...", DEBUG)
-    helper.log(send, DEBUG)
-    classification = cohere.classify(send, API_KEY)
-    txt.insert(END, "(" + classification + ")\n", 'tag')
-    txt.insert(END, "" + send)
-    userInput = e.get()
+    def send():
+        # SEND BUTTON PRESSED
+        helper.log("button pressed...", DEBUG)
+        send = e.get()
 
-    # PREPARE PROMPT
-    helper.log("formatting for input...", DEBUG)
-    input = [article, userInput, "disagree", "short", ""]
-    prompt = helper.generatePrompt(training_data, history, input)
+        # USER TEXT ADDED + CLASSIFICATION
+        txt.insert(END, "USER:\n")
+        helper.log("generating classification...", DEBUG)
+        helper.log(send, DEBUG)
+        classification = cohere.classify(send)
+        txt.insert(END, "(" + classification + ")\n", 'tag')
+        txt.insert(END, "" + send)
+        userInput = e.get()
 
-    # GENERATING AI RESPONSE USING PROMPT
-    helper.log("generating response...", DEBUG)
-    response = cohere.request(prompt, API_KEY)
-    response_prep = response.replace("--", "")
-    response_prep = response_prep.strip()
-    helper.log(response_prep, DEBUG)
-    helper.log("generating classification...", DEBUG)
+        # PREPARE PROMPT
+        helper.log("formatting for input...", DEBUG)
+        input = [article, userInput, "disagree", "short", ""]
+        prompt = helper.generatePrompt(training_data, history, input)
 
-    # DISPLAY GENERATED AI REPLY + CLASSIFICATION
-    txt.insert(END, "\n\n" + "AI:\n")
-    classification = cohere.classify(response_prep, API_KEY)
-    helper.log(classification, DEBUG)
-    txt.insert(END, "(" + classification + ")\n", 'tag')
-    txt.insert(END, response+"\n\n")
+        # GENERATING AI RESPONSE USING PROMPT
+        helper.log("generating response...", DEBUG)
+        response = cohere.request(prompt)
+        response_prep = response.replace("--", "")
+        response_prep = response_prep.strip()
+        helper.log(response_prep, DEBUG)
+        helper.log("generating classification...", DEBUG)
 
-    # ADD THIS INTERACTION TO HISTORY
-    helper.log("adding to history logs...", DEBUG)
-    helper.append_to_text_file(userInput, response, HISTORY_DIR, length=helper.length_classify(response), agree=classification)
+        # DISPLAY GENERATED AI REPLY + CLASSIFICATION
+        txt.insert(END, "\n\n" + "AI:\n")
+        classification = cohere.classify(response_prep)
+        helper.log(classification, DEBUG)
+        txt.insert(END, "(" + classification + ")\n", 'tag')
+        txt.insert(END, response+"\n\n")
 
-    e.delete(0, END)
+        # ADD THIS INTERACTION TO HISTORY
+        helper.log("adding to history logs...", DEBUG)
+        helper.append_to_text_file(userInput, response, HISTORY_DIR, length=helper.length_classify(response), agree=classification)
 
-### LAYOUT
+        e.delete(0, END)
 
-# DEBAIT HEADER
-image1 = Image.open(HEADER_LOGO_IMG)
-img = image1.resize((450,124), Image.ANTIALIAS)
-test = ImageTk.PhotoImage(img)
-lable1 = Label(root, image=test, bg=BG_GRAY).grid(row=0, sticky='w')
+    ### LAYOUT
 
-# RIGHT-SIDE ARTICLE DISPLAY
-txt2 = Text(root, bg=BG_COLOR, fg=TEXT_COLOR, font=FONT, width=70, height=30, wrap=WORD)
-txt2.grid(row=1, column=0, columnspan=1, padx=5)
-txt2.insert(END, "----------------------\nTopic of debate\n----------------------\n" + article)
+    # DEBAIT HEADER
+    image1 = Image.open(HEADER_LOGO_IMG)
+    img = image1.resize((450,124), Image.ANTIALIAS)
+    test = ImageTk.PhotoImage(img)
+    lable1 = Label(root, image=test, bg=BG_GRAY).grid(row=0, sticky='w')
 
-# LEFT-SIDE CONVERSATION DISPLAY
-txt = Text(root, bg="#B4C7E7", fg=TEXT_COLOR, font=FONT, width=70, height=30, wrap=WORD)
-txt.grid(row=1, column=1, columnspan=1)
-txt.tag_config('tag', foreground="green")
+    # RIGHT-SIDE ARTICLE DISPLAY
+    txt2 = Text(root, bg=BG_COLOR, fg=TEXT_COLOR, font=FONT, width=70, height=30, wrap=WORD)
+    txt2.grid(row=1, column=0, columnspan=1, padx=5)
+    txt2.insert(END, "----------------------\nTopic of debate\n----------------------\n" + article)
 
-# TEXTBOX FOR USER ENTRY
-e = Entry(root, text="type here...", bg=BG_COLOR, fg=TEXT_COLOR, font=FONT, width=53)
-e.grid(row=2, column=1, sticky='w')
+    # LEFT-SIDE CONVERSATION DISPLAY
+    txt = Text(root, bg="#B4C7E7", fg=TEXT_COLOR, font=FONT, width=70, height=30, wrap=WORD)
+    txt.grid(row=1, column=1, columnspan=1)
+    txt.tag_config('tag', foreground="green")
 
-# SEND BUTTON
-send = Button(root, text="Send", font=FONT_BOLD, bg=BG_GRAY, command=send).grid(row=2, column=1, sticky='e')
+    # TEXTBOX FOR USER ENTRY
+    e = Entry(root, text="type here...", bg=BG_COLOR, fg=TEXT_COLOR, font=FONT, width=53)
+    e.grid(row=2, column=1, sticky='w')
 
-root.mainloop()
+    # SEND BUTTON
+    send = Button(root, text="Send", font=FONT_BOLD, bg=BG_GRAY, command=send).grid(row=2, column=1, sticky='e')
+
+    root.mainloop()
+
+if __name__ == "__main__":
+    main()
