@@ -53,7 +53,7 @@ def main():
         # GENERATING AI RESPONSE USING PROMPT
         helper.log("generating response...", DEBUG)
         status, error_msg, response = cohere.generate(prompt, API_KEY)
-        helper.log("status: " + status + ":" + error_msg, DEBUG)
+        helper.log("status: " + str(status) + ":" + error_msg, DEBUG)
         response_prep = response.replace("--", "")
         response_prep = response_prep.strip()
         helper.log(response_prep, DEBUG)
