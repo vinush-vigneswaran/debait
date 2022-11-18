@@ -1,16 +1,16 @@
 from tkinter import *
-import cohere_api as cohere
-import helper
+from model import cohere_api as cohere, helper
 from PIL import ImageTk, Image
 
 def main():
     ### GLOBAL VARIABLES
     DEBUG = True #print app status to console when True
+    API_KEY = helper.read_file('../app/api_key.txt')
 
     ### FILE DIRECTORY FOR PROMPT ENGINEERING
-    TRAINING_DATA_DIR = 'prompt_data\\training_data.txt'
-    ARTICLE_DIR = 'prompt_data\\article.txt'
-    HISTORY_DIR ='prompt_data\\history.txt'
+    TRAINING_DATA_DIR = '../prompt_data/training_data.txt'
+    ARTICLE_DIR = '../prompt_data/article.txt'
+    HISTORY_DIR = '../prompt_data/history.txt'
 
     training_data = helper.read_file(TRAINING_DATA_DIR)
     article = helper.read_file(ARTICLE_DIR)
@@ -24,7 +24,7 @@ def main():
     TEXT_COLOR = "#203864"
     FONT = "Helvetica 9"
     FONT_BOLD = "Helvetica 13 bold"
-    HEADER_LOGO_IMG = "media/debait_logo.png"
+    HEADER_LOGO_IMG = "../media/debait_logo.png"
 
     ### TKINTER APPLICATION
     root = Tk()
@@ -40,7 +40,7 @@ def main():
         txt.insert(END, "USER:\n")
         helper.log("generating classification...", DEBUG)
         helper.log(send, DEBUG)
-        classification = cohere.classify(send)
+        classification = cohere.classify(send, API_KEY)
         txt.insert(END, "(" + classification + ")\n", 'tag')
         txt.insert(END, "" + send)
         userInput = e.get()
@@ -52,7 +52,8 @@ def main():
 
         # GENERATING AI RESPONSE USING PROMPT
         helper.log("generating response...", DEBUG)
-        response = cohere.request(prompt)
+        status, error_msg, response = cohere.generate(prompt, API_KEY)
+        helper.log("status: " + status + ":" + error_msg, DEBUG)
         response_prep = response.replace("--", "")
         response_prep = response_prep.strip()
         helper.log(response_prep, DEBUG)
@@ -60,7 +61,7 @@ def main():
 
         # DISPLAY GENERATED AI REPLY + CLASSIFICATION
         txt.insert(END, "\n\n" + "AI:\n")
-        classification = cohere.classify(response_prep)
+        classification = cohere.classify(response_prep, API_KEY)
         helper.log(classification, DEBUG)
         txt.insert(END, "(" + classification + ")\n", 'tag')
         txt.insert(END, response+"\n\n")
