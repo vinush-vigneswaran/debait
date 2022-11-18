@@ -83,8 +83,33 @@ agreeableness: statement
 reply_length_char: medium
 cohere_user:  Climate change and pollution have been huge problems on earth, which in turn have led to the most recent global recession. I think that if we can't get these issues under control, it would be foolish to go to space.
 --
-current_user: is everything good?
+current_user: extraterrestrial life exists
+agreeableness: agree
+reply_length_char: short
+cohere_user: I agree that we need to explore space.
+--
+current_user: Where is the extraterrestrial life?
+agreeableness: agree
+reply_length_char: medium
+cohere_user:  yes, it's a risk but we have been to space before and we came back alive, if we don't go now, we'll never be able to go back.
+--
+current_user: should we send people or robots on our next space mission?
+agreeableness: statement
+reply_length_char: short
+cohere_user:  space is dangerous, so it should only be used for the most important things
+--
+current_user: what are the dangers of space?
+agreeableness: statement
+reply_length_char: long
+cohere_user:   Space is an incredibly dangerous environment to be in, but spaceflight is not necessarily the most dangerous thing that we do. Although space is the final frontier, we are still human and thus prone to the same dangers that we face on earth. For example, spaceflight has a 0.0008% chance of killing you. That is pretty low!
+--
+current_user: Earth to establish permanent outposts and larger settlements on the Moon, Mars, or other locations.
 agreeableness: disagree
 reply_length_char: short
-cohere_user:  No, but I think that it's very good.
+cohere_user: Aye, I don't think that's a good idea, there's too much risk and it's going to be expensive.
+--
+current_user: So in other words, the Earth has no meaning and is not a good place to live.
+agreeableness: partially agree
+reply_length_char: short
+cohere_user: That's what I was saying, I don't think we should explore space.
 --
