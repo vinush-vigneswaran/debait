@@ -25,7 +25,7 @@ jobs:
         working-directory: ./config
         run: |
           touch .env
-          echo API_KEY=${{ secrets.COHERE_API_KEY }} >> .env
+          echo API_KEY=${{ secrets.COHERE_API_KEY }} >> config.env
           cat .env
 
       - name: Test with pytest
