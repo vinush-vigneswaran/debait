@@ -1,9 +1,9 @@
-name: Test-and-plan
+name: Running Tests
 
 on: [push, workflow_dispatch]
 
 jobs:
-  build:
+  running-pytests:
     runs-on: ubuntu-latest
 
     steps:
