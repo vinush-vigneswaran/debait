@@ -33,7 +33,7 @@ jobs:
           echo --------------------
           echo Collecting all tests
           echo --------------------
-          pytest -s co
+          pytest --co
           echo --------------------
           echo Results
           echo --------------------
