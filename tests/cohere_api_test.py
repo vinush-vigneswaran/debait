@@ -14,7 +14,7 @@ Generate:
 '''
 class TestCohereAPI:
     ## LOAD CONFIG ENV VARIABLES
-    load_dotenv('app/config.env')
+    load_dotenv('config/config.env')
 
     API_KEY = os.getenv('API_KEY')
 

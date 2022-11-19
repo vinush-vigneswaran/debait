@@ -7,12 +7,12 @@ import os
 
 def main():
     ## LOAD CONFIG ENV VARIABLES
-    load_dotenv('config.env')
+    load_dotenv('../config/config.env')
 
     ### GLOBAL VARIABLES
     DEBUG = True #print app status to console when True
     API_KEY = os.getenv('API_KEY')
-
+    print(API_KEY)
     ### FILE DIRECTORY FOR PROMPT ENGINEERING
     TRAINING_DATA_DIR = '../prompt_data/training_data.txt'
     ARTICLE_DIR = '../prompt_data/article.txt'
