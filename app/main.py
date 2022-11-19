@@ -2,10 +2,16 @@ from tkinter import *
 from model import cohere_api as cohere, helper
 from PIL import ImageTk, Image
 
+from dotenv import load_dotenv
+import os
+
 def main():
+    ## LOAD CONFIG ENV VARIABLES
+    load_dotenv('config.env')
+
     ### GLOBAL VARIABLES
     DEBUG = True #print app status to console when True
-    API_KEY = helper.read_file('../app/api_key.txt')
+    API_KEY = os.getenv('API_KEY')
 
     ### FILE DIRECTORY FOR PROMPT ENGINEERING
     TRAINING_DATA_DIR = '../prompt_data/training_data.txt'

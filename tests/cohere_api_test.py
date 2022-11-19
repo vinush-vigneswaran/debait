@@ -4,7 +4,7 @@ import pytest
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from model import cohere_api
 from model import helper
-
+from dotenv import load_dotenv
 '''
 Generate:
     - Test if we get reply from API
@@ -13,7 +13,10 @@ Generate:
     CMD: pytest -s tests
 '''
 class TestCohereAPI:
-    API_KEY = helper.read_file('app/api_key.txt')
+    ## LOAD CONFIG ENV VARIABLES
+    load_dotenv('app/config.env')
+
+    API_KEY = os.getenv('API_KEY')
 
     TRAINING_DATA_DIR = 'prompt_data/training_data.txt'
     ARTICLE_DIR = 'prompt_data/article.txt'
@@ -33,7 +36,7 @@ class TestCohereAPI:
         assert ((type(response) is str) and (len(response) > 2))
 
     def test_generate_invalid_request(self):
-        # Test for invalid request
+        # Test for invalid request - one token
         x = ""
         status, error_msg, response = cohere_api.generate(x, TestCohereAPI.API_KEY)
         print(status, error_msg, response)
