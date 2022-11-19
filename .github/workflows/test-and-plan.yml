@@ -37,5 +37,5 @@ jobs:
           echo --------------------
           echo Results
           echo --------------------
-          pytest -s tests
+          pytest tests
 
