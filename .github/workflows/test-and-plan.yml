@@ -9,5 +9,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Test a one-line script
-        run: echo hello world
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pytest
+          pip install -r requirements.txt
+
+      - name: Test with pytest
+        run: |
+          pytest -s tests
+
