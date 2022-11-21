@@ -1,5 +1,5 @@
 from tkinter import *
-from model import cohere_api as cohere, helper
+from app.utils import helper, cohere_api as cohere
 from PIL import ImageTk, Image
 
 from dotenv import load_dotenv
@@ -12,7 +12,7 @@ def main():
     ### GLOBAL VARIABLES
     DEBUG = True #print app status to console when True
     API_KEY = os.getenv('API_KEY')
-    print(API_KEY)
+
     ### FILE DIRECTORY FOR PROMPT ENGINEERING
     TRAINING_DATA_DIR = '../prompt_data/training_data.txt'
     ARTICLE_DIR = '../prompt_data/article.txt'
@@ -46,7 +46,8 @@ def main():
         txt.insert(END, "USER:\n")
         helper.log("generating classification...", DEBUG)
         helper.log(send, DEBUG)
-        classification = cohere.classify(send, API_KEY)
+        status, error_msg, classification = cohere.classify(send, API_KEY)
+        helper.log("status: " + str(status) + error_msg, DEBUG)
         txt.insert(END, "(" + classification + ")\n", 'tag')
         txt.insert(END, "" + send)
         userInput = e.get()
@@ -59,7 +60,7 @@ def main():
         # GENERATING AI RESPONSE USING PROMPT
         helper.log("generating response...", DEBUG)
         status, error_msg, response = cohere.generate(prompt, API_KEY)
-        helper.log("status: " + str(status) + ":" + error_msg, DEBUG)
+        helper.log("status: " + str(status) + error_msg, DEBUG)
         response_prep = response.replace("--", "")
         response_prep = response_prep.strip()
         helper.log(response_prep, DEBUG)
@@ -67,7 +68,9 @@ def main():
 
         # DISPLAY GENERATED AI REPLY + CLASSIFICATION
         txt.insert(END, "\n\n" + "AI:\n")
-        classification = cohere.classify(response_prep, API_KEY)
+        status, error_msg, classification = cohere.classify(response_prep, API_KEY)
+        helper.log("status: " + str(status) + error_msg, DEBUG)
+
         helper.log(classification, DEBUG)
         txt.insert(END, "(" + classification + ")\n", 'tag')
         txt.insert(END, response+"\n\n")
