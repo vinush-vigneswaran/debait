@@ -1,7 +1,4 @@
 import cohere
-from model.helper import read_file
-import os
-
 
 
 def generate(prompt, api_key) -> str:
@@ -39,36 +36,44 @@ def generate(prompt, api_key) -> str:
 
 def classify(input, api_key):
     '''
-    Connects to cohere API and returns fine-tuned model classification
+    Connects to cohere API and returns fine-tuned utils classification
     '''
     max = 0
-    try:
-        co = cohere.Client(api_key)
-        response = co.classify(
-            model='9e2e2d1c-2c28-466c-8302-9c69dad99124-ft',
-            inputs=[input])
+    num_tries = 0
+    while num_tries < 2:
+        try:
+            co = cohere.Client(api_key)
+            response = co.classify(
+                model='9e2e2d1c-2c28-466c-8302-9c69dad99124-ft',
+                inputs=[input])
 
-        confidence = response.classifications[0].confidence
-        for data in confidence:
-            if data.confidence > max:
-                max = data.confidence
-                best_label = data.label
-    except Exception as e:
-        out = "ERROR CLASSIFY: " + str(type(e))
-        print(out)
-        best_label = "connection timed out!"
+            confidence = response.classifications[0].confidence
+            for data in confidence:
+                if data.confidence > max:
+                    max = data.confidence
+                    best_label = data.label
+            status = 200
+            error_msg = ""
+            break
 
-    return best_label
+        except cohere.CohereError as e:
+            status = e.http_status
+            error_msg = e.message
+            best_label = "Call to API failed"
+            #header = e.headers
+            num_tries += 1
+
+    return status, error_msg, best_label
 
 
 # def classify(input, api_key):
 #     '''
-#     Connects to cohere API and returns fine-tuned model classification
+#     Connects to cohere API and returns fine-tuned utils classification
 #     '''
 #     max = 0
 #     co = cohere.Client(api_key)
 #     response = co.classify(
-#         model='9e2e2d1c-2c28-466c-8302-9c69dad99124-ft',
+#         utils='9e2e2d1c-2c28-466c-8302-9c69dad99124-ft',
 #         inputs=[input])
 #
 #     confidence = response.classifications[0].confidence
