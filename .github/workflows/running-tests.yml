@@ -1,4 +1,4 @@
-name: Running Tests
+name: Running pyTests
 
 on: [push, workflow_dispatch]
 
