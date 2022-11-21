@@ -1,9 +1,8 @@
 import os
 import sys
-import pytest
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from model import cohere_api
-from model import helper
+from app.utils import helper, cohere_api
 from dotenv import load_dotenv
 '''
 Generate:
@@ -41,3 +40,17 @@ class TestCohereAPI:
         status, error_msg, response = cohere_api.generate(x, TestCohereAPI.API_KEY)
         print(status, error_msg, response)
         assert ((response == "") and (status==400) and (error_msg=="invalid request: prompt must be at least 1 token long"))
+
+    def test_classify_return_classification(self):
+        # Test that classification works
+        x = "This is a test input"
+        _,_,response = cohere_api.classify(x, TestCohereAPI.API_KEY)
+        print("test_classify_return_classification", response)
+        assert (response == "statement")
+
+    def test_classify_invalid_request(self):
+        # Test for invalid request
+        x = ""
+        status,error_msg,response = cohere_api.classify(x, TestCohereAPI.API_KEY)
+        print("test_classify_return_classification", response)
+        assert ((response == "Call to API failed") and (status==400) and (error_msg=="invalid request: inputs contains an element that is the empty string at index 0"))
