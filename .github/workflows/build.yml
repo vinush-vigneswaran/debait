@@ -1,4 +1,4 @@
-name: Sonar Cloud Build
+name: Build
 on:
   push:
     branches:
@@ -13,24 +13,6 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-
-      - name: Setup Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install tox
-        run: pip install tox
-
-      - name: Install python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install flake8 pytest pytest-cov
-          pip install -r requirements.txt
-
-      - name: Run tox
-        run: tox -e py
-
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
