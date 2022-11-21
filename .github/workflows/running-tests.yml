@@ -24,9 +24,9 @@ jobs:
       - name: Create envfile
         working-directory: ./config
         run: |
-          touch .env
+          touch config.env
           echo API_KEY=${{ secrets.COHERE_API_KEY }} >> config.env
-          cat .env
+          cat config.env
 
       - name: Test with pytest
         run: |

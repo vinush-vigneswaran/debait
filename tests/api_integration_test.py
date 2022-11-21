@@ -41,16 +41,16 @@ class TestCohereAPI:
         print(status, error_msg, response)
         assert ((response == "") and (status==400) and (error_msg=="invalid request: prompt must be at least 1 token long"))
 
-    def test_classify_return_classification(self):
-        # Test that classification works
-        x = "This is a test input"
-        _,_,response = cohere_api.classify(x, TestCohereAPI.API_KEY)
-        print("test_classify_return_classification", response)
-        assert (response == "statement")
+    # def test_classify_return_classification(self):
+    #     # Test that classification works
+    #     x = "This is a test input"
+    #     _,_,response = cohere_api.classify(x, TestCohereAPI.API_KEY)
+    #     print("test_classify_return_classification", response)
+    #     assert (response == "statement")
 
-    def test_classify_invalid_request(self):
-        # Test for invalid request
-        x = ""
-        status,error_msg,response = cohere_api.classify(x, TestCohereAPI.API_KEY)
-        print("test_classify_return_classification", response)
-        assert ((response == "Call to API failed") and (status==400) and (error_msg=="invalid request: inputs contains an element that is the empty string at index 0"))
+    # def test_classify_invalid_request(self):
+    #     # Test for invalid request
+    #     x = ""
+    #     status,error_msg,response = cohere_api.classify(x, TestCohereAPI.API_KEY)
+    #     print("test_classify_return_classification", response)
+    #     assert ((response == "Call to API failed") and (status==400) and (error_msg=="invalid request: inputs contains an element that is the empty string at index 0"))
