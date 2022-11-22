@@ -1,31 +1,38 @@
-def append_to_text_file(user_text, generated_text, file, agree="disagree", length="medium"):
+def append_to_text_file(user_text: str, generated_text: str, filepath: str, agreeableness="disagree", length="medium"):
     '''
-    This function appends the given in the correct text format for the co:here API
-    prompt format. The text gets stored in a text file.
-    Check whether the connection timed out - if so, do nothing.
-    '''
-    if (agree != "connection timed out!") and (generated_text != "connection timed out!"):
+    Append text in "prompt" format to text file
 
-        final_text = "\ncurrent_user: " + user_text + "\nagreeableness: " + agree + "\nreply_length_char: " + \
-                     length + "\ncohere_user: " + generated_text
-        with open(file, "a") as myfile:
-            myfile.write(final_text)
-
-def generatePrompt(training_data, history, varInput):
+    :param user_text: user input as a (string)
+    :param generated_text: generated text from Cohere
+    :param filepath
+    :param agreeableness: string agree, disagree, statement, partially agree, curious
+    :param length: short, medium and long
     '''
-    Generates the format required for the prompt
-    '''
-    content = "\ncontent:" + varInput[0]
-    current_user = "\ncurrent_user:" + varInput[1]
-    agreeableness = "\nagreeableness:" + varInput[2]
-    reply_length = "\nreply_length:" + varInput[3]
-    cohere_user = "\ncohere_user:" + varInput[4]
 
-    prompt = training_data + history + content + current_user + \
+    values_for_prompt = [user_text, agreeableness, length, generated_text]
+    final_text = generate_prompt(values_for_prompt=values_for_prompt)
+
+    with open(filepath, "a") as file:
+        file.write(final_text)
+
+def generate_prompt(training_data="", history="", article="", values_for_prompt=["current_user","agreeableness","reply_length","cohere_user"]):
+    """
+    Generate layout for prompt as string
+    """
+    if article != "":
+        article = "\ncontent:" + article
+
+    current_user = "\ncurrent_user:" + values_for_prompt[0]
+    agreeableness = "\nagreeableness:" + values_for_prompt[1]
+    reply_length = "\nreply_length:" + values_for_prompt[2]
+    cohere_user = "\ncohere_user:" + values_for_prompt[3]
+
+    prompt = training_data + history + article + current_user + \
              agreeableness + reply_length + cohere_user
+
     return prompt
 
-def length_classify(text):
+def length_classify(text: str):
     '''
     Classifies the length of the given text
     (this is to add to the train data)
@@ -45,20 +52,18 @@ def log(txt, DEBUG=True):
     if (DEBUG):
         print(txt)
 
-def read_file(DIR):
+def read_file_lines(DIR: str, lookback=-1):
     '''
-    read a file given a DIR
+    Read file with lookback (number of conversations OR num of batches of 5 lines)
     '''
-    with open(DIR, 'r') as f:
-        content = f.read()
-    return content
+    if lookback == -1:
+        with open(DIR, 'r') as f:
+            content = f.read()
+    elif lookback > 0:
+        with open(DIR) as f:
+            content = f.readlines()[-5*int(lookback):]
+            content = ''.join(content)
+    else:
+        raise ValueError('The lookback value has to be a positive integer')
 
-def read_file_lines(DIR, lookback):
-    '''
-    given directory read a specific number of lines in a file
-    lookback: allows to see n number of most recent conversations
-    '''
-    with open(DIR) as f:
-        content = f.readlines()[-5*lookback:]
-        content = ''.join(content)
     return content
