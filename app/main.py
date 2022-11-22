@@ -1,7 +1,6 @@
 from tkinter import *
 from app.utils import helper, cohere_api as cohere
 from PIL import ImageTk, Image
-
 from dotenv import load_dotenv
 import os
 
@@ -18,11 +17,9 @@ def main():
     ARTICLE_DIR = '../prompt_data/article.txt'
     HISTORY_DIR = '../prompt_data/history.txt'
 
-    training_data = helper.read_file(TRAINING_DATA_DIR)
-    article = helper.read_file(ARTICLE_DIR)
+    training_data = helper.read_file_lines(TRAINING_DATA_DIR)
+    article = helper.read_file_lines(ARTICLE_DIR)
     history = helper.read_file_lines(HISTORY_DIR, lookback=5) #only look back at 5 conversations
-
-    log = helper.log("button pressed...", DEBUG)
 
     ### GUI DECORATION VARIABLES
     BG_GRAY = "#FFFFFF"
@@ -54,8 +51,8 @@ def main():
 
         # PREPARE PROMPT
         helper.log("formatting for input...", DEBUG)
-        input = [article, userInput, "disagree", "short", ""]
-        prompt = helper.generatePrompt(training_data, history, input)
+        values_for_prompt = [userInput, "disagree", "short", ""]
+        prompt = helper.generate_prompt(training_data=training_data, history=history, article=article, values_for_prompt=values_for_prompt)
 
         # GENERATING AI RESPONSE USING PROMPT
         helper.log("generating response...", DEBUG)
@@ -77,8 +74,7 @@ def main():
 
         # ADD THIS INTERACTION TO HISTORY
         helper.log("adding to history logs...", DEBUG)
-        helper.append_to_text_file(userInput, response, HISTORY_DIR, length=helper.length_classify(response), agree=classification)
-
+        helper.append_to_text_file(userInput, response, HISTORY_DIR, length=helper.length_classify(response), agreeableness=classification)
         e.delete(0, END)
 
     ### LAYOUT
