@@ -1,108 +1,74 @@
-from tkinter import *
+import gradio as gr
 from app.utils import helper, cohere_api as cohere
-from PIL import ImageTk, Image
 from dotenv import load_dotenv
 import os
 
 def main():
-    ## LOAD CONFIG ENV VARIABLES
-    load_dotenv('../config/config.env')
 
-    ### GLOBAL VARIABLES
-    DEBUG = True #print app status to console when True
-    API_KEY = os.getenv('API_KEY')
-
-    ### FILE DIRECTORY FOR PROMPT ENGINEERING
+    ## FILEPATHS
     TRAINING_DATA_DIR = '../prompt_data/training_data.txt'
     ARTICLE_DIR = '../prompt_data/article.txt'
     HISTORY_DIR = '../prompt_data/history.txt'
+    CONFIG_DIR = '../config/config.env'
 
+    DEBUG = True  # print app status to console when True
+    load_dotenv(CONFIG_DIR)
+    API_KEY = os.getenv('API_KEY')
+
+    ### FILE DIRECTORY FOR PROMPT ENGINEERING
     training_data = helper.read_file_lines(TRAINING_DATA_DIR)
     article = helper.read_file_lines(ARTICLE_DIR)
-    history = helper.read_file_lines(HISTORY_DIR, lookback=5) #only look back at 5 conversations
+    history = helper.read_file_lines(HISTORY_DIR, lookback=8)  # only look back at 5 conversations
 
-    ### GUI DECORATION VARIABLES
-    BG_GRAY = "#FFFFFF"
-    BG_COLOR = "#FFFFFF"
-    TEXT_COLOR = "#203864"
-    FONT = "Helvetica 9"
-    FONT_BOLD = "Helvetica 13 bold"
-    HEADER_LOGO_IMG = "../media/debait_logo.png"
 
-    ### TKINTER APPLICATION
-    root = Tk()
-    root.title("Debait")
-    root.configure(bg=BG_GRAY)
+    def predict(user_input, convo_history=[]):
 
-    def send():
-        # SEND BUTTON PRESSED
-        helper.log("button pressed...", DEBUG)
-        send = e.get()
+        # prepare the prompt format
+        values_for_prompt = [user_input, "disagree", "short", ""]
+        prompt = helper.generate_prompt(training_data=training_data,
+                                        history=history,
+                                        article=article,
+                                        values_for_prompt=values_for_prompt)
 
-        # USER TEXT ADDED + CLASSIFICATION
-        txt.insert(END, "USER:\n")
-        helper.log("generating classification...", DEBUG)
-        helper.log(send, DEBUG)
-        status, error_msg, classification = cohere.classify(send, API_KEY)
-        helper.log("status: " + str(status) + error_msg, DEBUG)
-        txt.insert(END, "(" + classification + ")\n", 'tag')
-        txt.insert(END, "" + send)
-        userInput = e.get()
+        # log for debugging
+        helper.log("values_for_prompt: " + str(values_for_prompt), DEBUG)
+        helper.log("user_input: " + user_input, DEBUG)
 
-        # PREPARE PROMPT
-        helper.log("formatting for input...", DEBUG)
-        values_for_prompt = [userInput, "disagree", "short", ""]
-        prompt = helper.generate_prompt(training_data=training_data, history=history, article=article, values_for_prompt=values_for_prompt)
 
-        # GENERATING AI RESPONSE USING PROMPT
-        helper.log("generating response...", DEBUG)
+        # generate response from AI model
         status, error_msg, response = cohere.generate(prompt, API_KEY)
-        helper.log("status: " + str(status) + error_msg, DEBUG)
-        response_prep = response.replace("--", "")
-        response_prep = response_prep.strip()
-        helper.log(response_prep, DEBUG)
-        helper.log("generating classification...", DEBUG)
+        response_prep = response.replace("--", "").strip()
+        helper.log("generate(): \t status[{}] \n {}".format(status, error_msg,response_prep), DEBUG)
 
-        # DISPLAY GENERATED AI REPLY + CLASSIFICATION
-        txt.insert(END, "\n\n" + "AI:\n")
-        status, error_msg, classification = cohere.classify(response_prep, API_KEY)
-        helper.log("status: " + str(status) + error_msg, DEBUG)
+        # classify user input and ai response
+        user_classify_status, user_error_msg, user_classification = cohere.classify(user_input, API_KEY)
+        helper.log("classify(USER): \t status[{}] \n {}".format(user_classify_status,
+                                                                user_error_msg,
+                                                                user_classification), DEBUG)
 
-        helper.log(classification, DEBUG)
-        txt.insert(END, "(" + classification + ")\n", 'tag')
-        txt.insert(END, response+"\n\n")
+        model_classify_status, model_error_msg, model_classification = cohere.classify(response_prep, API_KEY)
+        helper.log("classify(MODEL): \t status[{}] \n {}".format(model_classify_status,
+                                                                 model_error_msg,
+                                                                 model_classification), DEBUG)
 
-        # ADD THIS INTERACTION TO HISTORY
-        helper.log("adding to history logs...", DEBUG)
-        helper.append_to_text_file(userInput, response, HISTORY_DIR, length=helper.length_classify(response), agreeableness=classification)
-        e.delete(0, END)
+        # add to conversation history logs
+        helper.append_to_text_file(user_input, response, HISTORY_DIR, length=helper.length_classify(response),
+                                   agreeableness=model_classification)
 
-    ### LAYOUT
+        # UI Gradio conversation history
+        convo_history.append("["+user_classification+"]\n"+user_input)
+        convo_history.append("["+model_classification+"]\n"+response_prep)
+        response = [(convo_history[i], convo_history[i+1]) for i in range(0, len(convo_history)-1, 2)]
 
-    # DEBAIT HEADER
-    image1 = Image.open(HEADER_LOGO_IMG)
-    img = image1.resize((450,124), Image.ANTIALIAS)
-    test = ImageTk.PhotoImage(img)
-    lable1 = Label(root, image=test, bg=BG_GRAY).grid(row=0, sticky='w')
+        return response, convo_history
 
-    # RIGHT-SIDE ARTICLE DISPLAY
-    txt2 = Text(root, bg=BG_COLOR, fg=TEXT_COLOR, font=FONT, width=70, height=30, wrap=WORD)
-    txt2.grid(row=1, column=0, columnspan=1, padx=5)
-    txt2.insert(END, "----------------------\nTopic of debate\n----------------------\n" + article)
+    app = gr.Interface(fn=predict,
+                       inputs=["text", "state"],
+                       outputs=["chatbot", "state"],
+                       allow_flagging='manual',
+                       title='debait')
 
-    # LEFT-SIDE CONVERSATION DISPLAY
-    txt = Text(root, bg="#B4C7E7", fg=TEXT_COLOR, font=FONT, width=70, height=30, wrap=WORD)
-    txt.grid(row=1, column=1, columnspan=1)
-    txt.tag_config('tag', foreground="green")
-
-    # TEXTBOX FOR USER ENTRY
-    e = Entry(root, text="type here...", bg=BG_COLOR, fg=TEXT_COLOR, font=FONT, width=53)
-    e.grid(row=2, column=1, sticky='w')
-
-    # SEND BUTTON
-    send = Button(root, text="Send", font=FONT_BOLD, bg=BG_GRAY, command=send).grid(row=2, column=1, sticky='e')
-
-    root.mainloop()
+    app.launch(debug=DEBUG, share=False)
 
 if __name__ == "__main__":
     main()
