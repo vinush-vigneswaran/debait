@@ -1,3 +1,5 @@
+from datetime import datetime
+
 def append_to_text_file(user_text: str, generated_text: str, filepath: str, agreeableness="disagree", length="medium"):
     '''
     Append text in "prompt" format to text file
@@ -49,8 +51,9 @@ def log(txt, DEBUG=True):
     '''
     Logging on console for debugging
     '''
+
     if (DEBUG):
-        print(txt)
+        print(datetime.now().strftime("[%d/%m/%Y %H:%M:%S] ") + str(txt))
 
 def read_file_lines(DIR: str, lookback=-1):
     '''
