@@ -21,10 +21,10 @@ def main():
     history = helper.read_file_lines(HISTORY_DIR, lookback=8)  # only look back at 5 conversations
 
 
-    def predict(user_input, convo_history=[]):
+    def predict(article, user_input,answer_length, convo_history=[]):
 
         # prepare the prompt format
-        values_for_prompt = [user_input, "disagree", "short", ""]
+        values_for_prompt = [user_input, "disagree", answer_length, ""]
         prompt = helper.generate_prompt(training_data=training_data,
                                         history=history,
                                         article=article,
@@ -62,11 +62,38 @@ def main():
 
         return response, convo_history
 
+
+    #Gradio UI Components
+    article_textbox = gr.Textbox(
+                    label="Article of discussion:",
+                    lines=1,
+                    interactive=False,
+                    value=str(article))
+
+    textbox = gr.Textbox(
+                    label="User:",
+                    lines=3,
+                    placeholder="Write message here.")
+
+    chatbot = gr.Chatbot(
+        label="debait"
+    ).style(color_map=("black", "blue"))
+
+    answer_length = gr.Radio(
+        choices = ["long", "medium", "short"],
+        value = "medium",
+        label = "Length of the response")
+
+    css = "#component-2, .overflow-y-auto.h-\[40vh\] {height: 500px}"
+    #<style>  # component-2 > div.overflow-y-auto.h-\[40vh\] {height: 500px}</style>
+    # component-2 > div.overflow-y-auto.h-\[40vh\]
+    #".output-image, .input-image, .image-preview {height: 600px !important}"
     app = gr.Interface(fn=predict,
-                       inputs=["text", "state"],
-                       outputs=["chatbot", "state"],
+                       inputs=[article_textbox, textbox, answer_length, "state"],
+                       outputs=[chatbot, "state"],
                        allow_flagging='manual',
-                       title='debait')
+                       title='debait',
+                       css=css)
 
     app.launch(debug=DEBUG, share=False)
 
